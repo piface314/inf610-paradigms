@@ -2,7 +2,7 @@ TARGET := structures
 CC := g++
 CCFLAGS := -O2 -Wall -g -std=c++17
 LDFLAGS := -Wall -lpthread -lm -ldl -lz -rdynamic
-PARADIGMS := brute-force exhaustive-search
+PARADIGMS := brute-force exhaustive-search backtracking
 OBJS := $(addprefix obj/,$(addsuffix .o,$(PARADIGMS)))
 
 .PHONY: all clean

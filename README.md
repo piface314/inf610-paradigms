@@ -7,3 +7,4 @@ Revisão de paradigmas de programação discutidas na disciplina INF610.
 - `bt`: _backtracking_
 - `dc`: _divide and conquer_, divisão e conquista
 - `dp`: _dynamic programming_, programação dinâmica
+- `gd`: _greedy_, algoritmos gulosos
