@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <limits>
+#include <vector>
 #include "data.hpp"
 #include "utils.hpp"
 
@@ -13,7 +14,8 @@ namespace bf {
     int str_match(char *text, size_t n, char *pattern, size_t m);
     std::pair<int, Range> max_subseq_sum(int *a, size_t n);
     std::pair<size_t, size_t> closest_pair(Point *p, size_t n);
-    std::pair<Point*, size_t> convex_hull(Point *p, size_t n);
+    std::vector<Point> convex_hull(Point *p, size_t n);
+    void test();
 }
 
 #endif
