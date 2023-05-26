@@ -30,16 +30,16 @@ std::vector<size_t> bt::n_queens(size_t n) {
 
 void subset_sum_r(std::vector<std::vector<int>> &out,
                   std::vector<int> &stack,
-                  int m, int *w, size_t n, size_t i, int s, int t) {
+                  int m, int *w, size_t n, int s, int t) {
     if (s == m)
         return out.push_back(stack);
-    if (i == n)
+    if (n == 0)
         return;
     if (s + t >= m) {
-        subset_sum_r(out, stack, m, w, n, i + 1, s, t - w[i]);
-        if (s + w[i] <= m) {
-            stack.push_back(w[i]);
-            subset_sum_r(out, stack, m, w, n, i + 1, s + w[i], t - w[i]);
+        subset_sum_r(out, stack, m, w + 1, n - 1, s, t - *w);
+        if (s + *w <= m) {
+            stack.push_back(*w);
+            subset_sum_r(out, stack, m, w + 1, n - 1, s + *w, t - *w);
             stack.pop_back();
         }
     }
@@ -52,7 +52,7 @@ std::vector<std::vector<int>> bt::subset_sum(int m, int *w, size_t n) {
     for (size_t i = 0; i < n; ++i)
         w_[i] = w[i], t += w[i];
     std::sort(w_, w_ + n);
-    subset_sum_r(out, stack, m, w_, n, 0, 0, t);
+    subset_sum_r(out, stack, m, w_, n, 0, t);
     return out;
 }
 
