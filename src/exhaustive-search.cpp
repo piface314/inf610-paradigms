@@ -2,7 +2,7 @@
 
 std::vector<size_t> xs::traveling_salesman(double *d, size_t n) {
     std::vector<size_t> out;
-    size_t *idx = new size_t[n];
+    size_t idx[n];
     double best_val = std::numeric_limits<double>::max();
 
     for (size_t i = 0; i < n; ++i)
@@ -20,13 +20,13 @@ std::vector<size_t> xs::traveling_salesman(double *d, size_t n) {
         }
     };
     permutations(idx, n, f);
-    delete [] idx;
     return out;
 }
 
 std::vector<size_t> xs::job_scheduling(double *c, size_t n) {
     std::vector<size_t> out;
-    size_t *idx = new size_t[n];
+    size_t idx[n];
+
     double best_val = std::numeric_limits<double>::max();
     for (size_t i = 0; i < n; ++i)
         idx[i] = i;
@@ -42,16 +42,15 @@ std::vector<size_t> xs::job_scheduling(double *c, size_t n) {
                 out.push_back(ids[i]);
         }
     };
-
     permutations(idx, n, f);
-    delete [] idx;
     return out;
 }
 
 std::vector<size_t> xs::knapsack(int *w, double *v, int w_max, size_t n) {
     std::vector<size_t> out;
-    size_t *idx = new size_t[n];
+    size_t idx[n];
     double best_val = 0;
+
     for (size_t i = 0; i < n; ++i)
         idx[i] = i;
 
@@ -67,10 +66,7 @@ std::vector<size_t> xs::knapsack(int *w, double *v, int w_max, size_t n) {
                 out.push_back(ids[i]);
         }
     };
-
     power_set(idx, n, f);
-    delete [] idx;
-
     return out;
 }
 
