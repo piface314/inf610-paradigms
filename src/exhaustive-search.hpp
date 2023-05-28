@@ -15,9 +15,9 @@ namespace xs {
             f(v, n);
         else
             for (size_t j = i; j < n; ++j) {
-                swap(v[i], v[j]);
+                std::swap(v[i], v[j]);
                 permutate(v, n, i + 1, f);
-                swap(v[i], v[j]);
+                std::swap(v[i], v[j]);
             }
     }
 

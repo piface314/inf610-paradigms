@@ -2,7 +2,7 @@ TARGET := structures
 CC := g++
 CCFLAGS := -O2 -Wall -g -std=c++17
 LDFLAGS := -Wall -lpthread -lm -ldl -lz -rdynamic
-PARADIGMS := brute-force exhaustive-search backtracking
+PARADIGMS := brute-force exhaustive-search backtracking divide-conquer
 OBJS := $(addprefix obj/,$(addsuffix .o,$(PARADIGMS)))
 
 .PHONY: all clean
@@ -15,8 +15,8 @@ obj:
 bin:
 	mkdir -p bin
 
-bin/$(TARGET): obj/main.o $(OBJS)
-	$(CC) -o bin/$(TARGET) obj/main.o $(OBJS) $(LDFLAGS)
+bin/$(TARGET): obj/main.o obj/utils.o $(OBJS)
+	$(CC) -o bin/$(TARGET) obj/main.o obj/utils.o $(OBJS) $(LDFLAGS)
 
 obj/main.o: src/main.cpp src/*.hpp
 	$(CC) -c $(CCFLAGS) src/main.cpp -o obj/main.o
@@ -24,6 +24,9 @@ obj/main.o: src/main.cpp src/*.hpp
 .SECONDEXPANSION:
 obj/%.o: src/$$*.cpp src/$$*.hpp src/utils.hpp src/data.hpp
 	$(CC) -c $(CCFLAGS) src/$*.cpp -o obj/$*.o
+
+obj/utils.o: src/utils.cpp src/utils.hpp
+	$(CC) -c $(CCFLAGS) src/utils.cpp -o obj/utils.o
 
 clean:
 	rm -vf obj/* bin/*

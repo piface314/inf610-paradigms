@@ -6,7 +6,7 @@ void bf::select_sort(int *a, size_t n) {
         for (size_t j = i + 1; j < n; ++j)
             if (a[j] < a[m])
                 m = j;
-        swap(a[i], a[m]);
+        std::swap(a[i], a[m]);
     }
 }
 
@@ -14,7 +14,7 @@ void bf::bubble_sort(int *a, size_t n) {
     for (size_t i = 0; i < n - 1; ++i)
         for (size_t j = 1; j < n - i; ++j)
             if (a[j-1] > a[j])
-                swap(a[j-1], a[j]);
+                std::swap(a[j-1], a[j]);
 }
 
 int bf::seq_search(int k, int *a, size_t n) {
@@ -50,7 +50,7 @@ std::pair<int, Range> bf::max_subseq_sum(int *a, size_t n) {
     return std::pair(m, r);
 }
 
-std::pair<size_t, size_t> bf::closest_pair(Point *p, size_t n) {
+std::pair<Point, Point> bf::closest_pair(Point *p, size_t n) {
     double d_min = std::numeric_limits<double>::max();
     std::pair<size_t, size_t> pair;
     for (size_t i = 0; i < n - 1; ++i)
@@ -59,7 +59,7 @@ std::pair<size_t, size_t> bf::closest_pair(Point *p, size_t n) {
             if (d < d_min)
                 pair = {i, j}, d_min = d;
         }
-    return pair;
+    return std::pair(p[pair.first], p[pair.second]);
 }
 
 std::vector<Point> bf::convex_hull(Point *p, size_t n) {
@@ -135,7 +135,7 @@ void bf::test() {
     Point p1[] = {{1, 2}, {0, -4}, {3, 2}, {-2, 3}, {-1, -1}};
     PRINT_A(p1, sizeof(p1) / sizeof(Point));
     auto cp = bf::closest_pair(p1, sizeof(p1) / sizeof(Point));
-    std::cout << p1[cp.first] << " ~ " << p1[cp.second] << ": " << p1[cp.first].distance(p1[cp.second]) << "\n";
+    std::cout << cp.first << " ~ " << cp.second << ": " << cp.first.distance(cp.second) << "\n";
     std::cout << "\n";
 
     std::cout << "Convex Hull\n";

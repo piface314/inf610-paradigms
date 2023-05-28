@@ -13,8 +13,8 @@ namespace bf {
     int seq_search(int k, int *a, size_t n);
     int str_match(char *text, size_t n, char *pattern, size_t m);
     std::pair<int, Range> max_subseq_sum(int *a, size_t n);
-    std::pair<size_t, size_t> closest_pair(Point *p, size_t n);
     std::vector<Point> convex_hull(Point *p, size_t n);
+    std::pair<Point, Point> closest_pair(Point *p, size_t n);
     void test();
 }
 
