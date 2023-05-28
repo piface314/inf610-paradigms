@@ -43,7 +43,7 @@ std::pair<int, Range> bf::max_subseq_sum(int *a, size_t n) {
             s += a[j];
             if (s > m) {
                 m = s;
-                r.i = i, r.j = j;
+                r.i = i, r.j = j + 1;
             }
         }
     }

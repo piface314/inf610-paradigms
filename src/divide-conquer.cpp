@@ -109,7 +109,7 @@ std::vector<Point> dc::convex_hull(Point *p, size_t n) {
 }
 
 std::pair<Point, Point> closest_pair_r(Point *p, Point *q, size_t *idx, Range r) {
-    size_t n = r.j - r.i;
+    size_t n = r.n();
     if (n < 3)
         return std::pair(p[r.i], p[r.i+1]);
     if (n == 3) {
@@ -121,14 +121,14 @@ std::pair<Point, Point> closest_pair_r(Point *p, Point *q, size_t *idx, Range r)
             : (d02 < d12 ? std::pair(p[r.i], p[r.i+2]) : std::pair(p[r.i+1], p[r.i+2]));
     }
     size_t n2 = n / 2;
-    auto pL = closest_pair_r(p, q, idx, {r.i, r.i + n2});
-    auto pR = closest_pair_r(p, q, idx, {r.i + n2, r.j});
-    double d, dL = pL.first.distance(pL.second), dR = pR.first.distance(pR.second);
+    auto p_l = closest_pair_r(p, q, idx, {r.i, r.i + n2});
+    auto p_r = closest_pair_r(p, q, idx, {r.i + n2, r.j});
+    double d, d_l = p_l.first.distance(p_l.second), d_r = p_r.first.distance(p_r.second);
     std::pair<Point, Point> cp;
-    if (dL < dR)
-        cp = pL, d = dL;
+    if (d_l < d_r)
+        cp = p_l, d = d_l;
     else
-        cp = pR, d = dR;
+        cp = p_r, d = d_r;
     double m = p[n2].x;
     std::vector<Point> s;
     for (size_t i = r.i; i < r.j; ++i)
@@ -159,9 +159,37 @@ std::pair<Point, Point> dc::closest_pair(Point *p, size_t n) {
     return closest_pair_r(p_, q, idx_, {0, n});
 }
 
+std::pair<int, Range> max_subseq_sum_r(int *a, Range r) {
+    size_t n = r.n();
+    if (n == 0)
+        return std::pair(0, r);
+    if (n == 1)
+        return std::pair(a[r.i], r);
+    size_t m = r.i + n / 2;
+    auto mss_l = max_subseq_sum_r(a, {r.i, m});
+    auto mss_r = max_subseq_sum_r(a, {m, r.j});
+    long long i = m, j = m;
+    int max_l, max_r, sum_l = 0, sum_r = 0;
+    max_l = max_r = std::numeric_limits<int>::min();
+
+    for (long long k = i - 1; k >= (long long)r.i; --k) {
+        sum_l += a[k];
+        if (sum_l >= max_l)
+            max_l = sum_l, i = k;
+    }
+
+    for (long long k = j; k < (long long)r.j; ++k) {
+        sum_r += a[k];
+        if (sum_r >= max_r)
+            max_r = sum_r, j = k;
+    }
+
+    auto mss_m = std::pair(max_l + max_r, Range {(size_t)i, (size_t)j + 1});
+    return std::max(std::max(mss_l, mss_r), mss_m);
+}
+
 std::pair<int, Range> dc::max_subseq_sum(int *a, size_t n) {
-    std::pair<int, Range> out;
-    return out;   
+    return max_subseq_sum_r(a, { 0, n });
 }
 
 void dc::test() {

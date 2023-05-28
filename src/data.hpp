@@ -3,6 +3,7 @@
 
 #include <cmath>
 #include <iostream>
+#include <tuple>
 
 
 struct Point {
@@ -52,6 +53,24 @@ struct Range {
     size_t i, j;
     friend std::ostream& operator<<(std::ostream& os, Range r) {
         return os << '[' << r.i << ',' << r.j << ')';
+    }
+
+    inline size_t n() const { return j - i; }
+
+    friend bool operator== (const Range& r1, const Range& r2) { return r1.i == r2.i && r1.j == r2.j; }
+    friend bool operator!= (const Range& r1, const Range& r2) { return r1.i != r2.i || r1.j != r2.j; }
+
+    friend bool operator< (const Range& r1, const Range& r2) {
+        return std::make_tuple(r1.n(), r1.i, r1.j) < std::make_tuple(r2.n(), r2.i, r2.j);
+    }
+    friend bool operator> (const Range& r1, const Range& r2) {
+        return std::make_tuple(r1.n(), r1.i, r1.j) > std::make_tuple(r2.n(), r2.i, r2.j);
+    }
+    friend bool operator<= (const Range& r1, const Range& r2) {
+        return std::make_tuple(r1.n(), r1.i, r1.j) <= std::make_tuple(r2.n(), r2.i, r2.j);
+    }
+    friend bool operator>= (const Range& r1, const Range& r2) {
+        return std::make_tuple(r1.n(), r1.i, r1.j) >= std::make_tuple(r2.n(), r2.i, r2.j);
     }
 };
 

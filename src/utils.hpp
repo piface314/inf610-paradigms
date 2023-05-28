@@ -1,6 +1,8 @@
 #ifndef UTILS_H
 #define UTILS_H
 
+#include <ostream>
+
 #define PRINT_A(A,N) {std::cout<<'[';for(size_t i=0;i<N;++i)std::cout<<(i?",":"")<<A[i];std::cout<<']'<<std::endl;}
 #define PRINT_V(V) {std::cout<<'[';for(auto it=V.begin();it!=V.end();++it)std::cout<<(it!=V.begin()?",":"")<<*it;std::cout<<']'<<std::endl;}
 #define PRINT_M(A,M,N) {std::cout << "\u23A1"; \
