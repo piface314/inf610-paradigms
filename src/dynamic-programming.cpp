@@ -41,9 +41,28 @@ std::vector<int> dp::change_making(int n, int *coins, size_t m) {
     return out;
 }
 
-std::vector<std::pair<size_t,size_t>> dp::coin_collecting(bool *c, size_t m, size_t n) {
+std::pair<int, std::vector<std::pair<size_t,size_t>>> dp::coin_collecting(bool *c, size_t m, size_t n) {
     std::vector<std::pair<size_t,size_t>> out;
-    return out;
+    int f[m*n] = {c[0]};
+    for (size_t i = 1; i < n; ++i)
+        f[i] = f[i-1] + c[i];
+    for (size_t i = 1; i < m; ++i) {
+        f[i*n] = f[(i-1)*n] + c[i*n];
+        for (size_t j = 1; j < n; ++j)
+            f[i*n + j] = std::max(f[(i-1)*n + j], f[i*n + j-1]) + c[i*n + j];
+    }
+
+    size_t i = m-1, j = n-1;
+    while (i > 0 || j > 0) {
+        out.emplace_back(i, j);
+        if (j == 0 || (i > 0 && f[(i-1)*n + j] > f[i*n + j-1]))
+            --i;
+        else
+            --j;
+    }
+    out.emplace_back(0, 0);
+    std::reverse(out.begin(), out.end());
+    return std::pair(f[m*n-1], out);
 }
 
 std::pair<int, Range> dp::max_subseq_sum(int *a, size_t n) {
@@ -89,12 +108,13 @@ void dp::test() {
     bool coins3[] = {
         0, 0, 0, 0, 1, 0,
         0, 1, 0, 1, 0, 0,
-        0, 0, 0, 1, 0, 0,
+        0, 0, 0, 1, 0, 1,
         0, 0, 1, 0, 0, 1,
-        1, 0, 0, 0, 0, 1,
+        1, 0, 0, 0, 1, 0,
     };
     auto cc = dp::coin_collecting(coins3, 5, 6);
-    PRINT_V(cc);
+    std::cout << "Coins: " << cc.first << " ";
+    PRINT_V(cc.second);
     std::cout << "\n";
 
     std::cout << "Maximum Subsequence Sum (MSS)\n";
