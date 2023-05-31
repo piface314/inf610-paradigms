@@ -101,11 +101,23 @@ std::vector<size_t> dp::knapsack(int *w, double *v, int w_max, size_t n) {
 
 bool *dp::transitive_closure(bool *adj, size_t n) {
     bool *tc = new bool[n*n] {0};
+    for (size_t i = 0; i < n*n; ++i)
+        tc[i] = adj[i];
+    for (size_t k = 0; k < n; ++k)
+        for (size_t i = 0; i < n; ++i)
+            for (size_t j = 0; j < n; ++j)
+                tc[i*n+j] |= tc[i*n+k] & tc[k*n+j];
     return tc;
 }
 
 int *dp::all_pairs_shortest_pairs(int *w, size_t n) {
     int *apsp = new int[n*n] {0};
+    for (size_t i = 0; i < n*n; ++i)
+        apsp[i] = w[i];
+    for (size_t k = 0; k < n; ++k)
+        for (size_t i = 0; i < n; ++i)
+            for (size_t j = 0; j < n; ++j)
+                apsp[i*n+j] = std::min(apsp[i*n+j], apsp[i*n+k] + apsp[k*n+j]);
     return apsp;
 }
 
@@ -174,9 +186,8 @@ void dp::test() {
     PRINT_M(tc, 4, 4);
     delete [] tc;
     std::cout << "\n";
-
     std::cout << "All Pairs Shortest Paths\n";
-    int inf = std::numeric_limits<int>::max();
+    int inf = 99999;
     int weights[] = {
           0, inf,   3, inf,
           2,   0, inf, inf,
