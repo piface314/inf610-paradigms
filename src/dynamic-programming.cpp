@@ -66,7 +66,16 @@ std::pair<int, std::vector<std::pair<size_t,size_t>>> dp::coin_collecting(bool *
 }
 
 std::pair<int, Range> dp::max_subseq_sum(int *a, size_t n) {
-    return std::pair<int, Range>();
+    int s[n+1] = {0};
+    size_t ri = 0, rj = 0;
+    for (size_t i = 1; i <= n; ++i)
+        s[i] = std::max(s[i-1] + a[i-1], a[i-1]);
+    for (size_t i = 1; i <= n; ++i)
+        if (s[i] > s[rj])
+            rj = i;
+    for (size_t i = rj; i >= 0 && s[i] >= 0; --i)
+        ri = i;
+    return std::pair(s[rj], Range {ri - 1, rj});
 }
 
 std::vector<size_t> dp::knapsack(int *w, double *v, int w_max, size_t n) {
