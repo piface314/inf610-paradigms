@@ -110,7 +110,9 @@ void xs::test() {
     double v[] = {3, 1, 4, 1, 5};
     std::vector<size_t> ks = xs::knapsack(w, v, 5, sizeof(w) / sizeof(int));
     std::vector<std::pair<int,double>> items;
+    double v_total = 0;
     for (auto it : ks)
-        items.emplace_back(w[it], v[it]);
+        items.emplace_back(w[it], v[it]), v_total += v[it];
+    std::cout << v_total << " ";
     PRINT_V(items);
 }

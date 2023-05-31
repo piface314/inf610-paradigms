@@ -79,7 +79,23 @@ std::pair<int, Range> dp::max_subseq_sum(int *a, size_t n) {
 }
 
 std::vector<size_t> dp::knapsack(int *w, double *v, int w_max, size_t n) {
+    double f[n+1][w_max + 1] = {0};
+    for (size_t i = 1; i <= n; ++i) {
+        int wi = w[i - 1];
+        for (int j = 1; j <= w_max; ++j)
+            if (j < wi)
+                f[i][j] = f[i-1][j];
+            else
+                f[i][j] = std::max(f[i-1][j], f[i-1][j-wi] + v[i-1]);
+    }
+    
     std::vector<size_t> out;
+    int j = w_max;
+    for (size_t i = n; i > 0; --i) {
+        int wi = w[i-1];
+        if (f[i][j] > f[i-1][j])
+            out.push_back(i-1), j -= wi;
+    }
     return out;
 }
 
